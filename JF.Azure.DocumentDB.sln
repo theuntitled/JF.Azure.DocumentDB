@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JF.Azure.DocumentDB", "JF.Azure.DocumentDB\JF.Azure.DocumentDB.csproj", "{DCC91939-144B-4D52-955F-40A289524010}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1027D66F-1622-40C0-B7B6-4188419780AB}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		nuspec.tpl = nuspec.tpl
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCC91939-144B-4D52-955F-40A289524010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCC91939-144B-4D52-955F-40A289524010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCC91939-144B-4D52-955F-40A289524010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCC91939-144B-4D52-955F-40A289524010}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

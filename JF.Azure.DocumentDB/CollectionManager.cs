@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
@@ -41,9 +42,10 @@ namespace JF.Azure.DocumentDB {
 			DocumentClient = documentClient;
 			DatabaseId = databaseId;
 
-			Database = DocumentClient.CreateDatabaseQuery().FirstOrDefault( item => item.Id == databaseId );
+			Database =
+				DocumentClient.CreateDatabaseQuery().Where( item => item.Id == databaseId ).AsEnumerable().FirstOrDefault();
 
-			Initialize( createDatabaseIfNonexistent );
+			Initialize( createDatabaseIfNonexistent ).Wait();
 		}
 
 		/// <summary>
@@ -68,7 +70,7 @@ namespace JF.Azure.DocumentDB {
 		/// <summary>
 		///     Prepares all ICollection properties of this class, creates the collections in the DocumentDB if necessary.
 		/// </summary>
-		protected async void Initialize( bool createDatabaseIfNonexistent ) {
+		protected async Task Initialize( bool createDatabaseIfNonexistent ) {
 			if ( createDatabaseIfNonexistent && Database == null ) {
 				await DocumentClient.CreateDatabaseAsync( new Database {
 					Id = DatabaseId
@@ -80,7 +82,7 @@ namespace JF.Azure.DocumentDB {
 			foreach ( var property in properties ) {
 				var documentCollection =
 					DocumentClient.CreateDocumentCollectionQuery( $"dbs/{DatabaseId}" )
-								  .FirstOrDefault( collection => collection.Id == property.Name );
+								  .Where( collection => collection.Id == property.Name ).AsEnumerable().FirstOrDefault();
 
 				if ( documentCollection == null ) {
 					var result = await DocumentClient.CreateDocumentCollectionAsync( $"dbs/{DatabaseId}" ,

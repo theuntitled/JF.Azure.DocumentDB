@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
 	<metadata>
 		<id>JF.Azure.DocumentDB</id>
-		<version>1.0.7</version>
+		<version>1.0.4</version>
 		<title>JF.Azure.DocumentDB</title>
 		<authors>Josef Fazekas</authors>
 		<owners>Josef Fazekas</owners>
@@ -16,7 +16,7 @@
 		<tags>Azure, DocumentDB</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.5.1">
-				<dependency id="Microsoft.Azure.DocumentDB" version="1.5.0" />
+				<dependency id="Microsoft.Azure.DocumentDB" version="1.4.1" />
 				<dependency id="Newtonsoft.Json" version="7.0.1" />
 				<dependency id="JF.Build.Tasks" version="1.0.0" />
 			</group>

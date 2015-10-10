@@ -20,6 +20,13 @@ namespace JF.Azure.DocumentDB {
 		IOrderedQueryable<TModel> AsQueryable();
 
 		/// <summary>
+		///     Creates a document query with an sqlExpression
+		/// </summary>
+		/// <param name="sqlExpression"></param>
+		/// <returns></returns>
+		IQueryable<TModel> CreateDocumentQuery( string sqlExpression );
+
+		/// <summary>
 		///     Inserts or replaces an entity
 		/// </summary>
 		/// <param name="entity"></param>

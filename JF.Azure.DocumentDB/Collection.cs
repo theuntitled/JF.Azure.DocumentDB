@@ -38,6 +38,15 @@ namespace JF.Azure.DocumentDB {
 		}
 
 		/// <summary>
+		///     Creates a document query with an sqlExpression
+		/// </summary>
+		/// <param name="sqlExpression"></param>
+		/// <returns></returns>
+		public IQueryable<TModel> CreateDocumentQuery( string sqlExpression ) {
+			return _documentClient.CreateDocumentQuery<TModel>( _collectionLink , sqlExpression );
+		}
+
+		/// <summary>
 		///     Inserts or replaces an entity
 		/// </summary>
 		/// <param name="entity"></param>
@@ -74,7 +83,7 @@ namespace JF.Azure.DocumentDB {
 		/// <param name="id"></param>
 		/// <returns></returns>
 		public Task<TModel> FindAsync( string id ) {
-			return Task.FromResult( AsQueryable().FirstOrDefault( model => model.Id == id ) );
+			return Task.FromResult( AsQueryable().Where( model => model.Id == id ).AsEnumerable().FirstOrDefault() );
 		}
 
 		/// <summary>
@@ -82,8 +91,10 @@ namespace JF.Azure.DocumentDB {
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public Task<ResourceResponse<Document>> RemoveAsync( string id ) {
-			return _documentClient.DeleteDocumentAsync( $"{_collectionLink}/docs/{id}" );
+		public async Task<ResourceResponse<Document>> RemoveAsync( string id ) {
+			var entity = await FindAsync( id );
+
+			return await RemoveInternal( entity.ResourceId );
 		}
 
 		/// <summary>
@@ -91,8 +102,12 @@ namespace JF.Azure.DocumentDB {
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <returns></returns>
-		public Task<ResourceResponse<Document>> RemoveAsync( TModel entity ) {
-			return RemoveAsync( entity.Id );
+		public async Task<ResourceResponse<Document>> RemoveAsync( TModel entity ) {
+			if ( entity.ResourceId != null ) {
+				return await RemoveInternal( entity.ResourceId );
+			}
+
+			return await RemoveAsync( entity.Id );
 		}
 
 		/// <summary>
@@ -108,6 +123,15 @@ namespace JF.Azure.DocumentDB {
 			}
 
 			return result;
+		}
+
+		/// <summary>
+		///     Removes a document by its resource id
+		/// </summary>
+		/// <param name="resourceId"></param>
+		/// <returns></returns>
+		protected async Task<ResourceResponse<Document>> RemoveInternal( string resourceId ) {
+			return await _documentClient.DeleteDocumentAsync( $"{_collectionLink}docs/{resourceId}" );
 		}
 
 	}
